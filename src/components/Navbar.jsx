@@ -1,7 +1,8 @@
 import React from 'react';
-import { FileText, Printer, RotateCcw, Sparkles } from 'lucide-react';
+import { FileText, Printer, RotateCcw, FileCheck, Check } from 'lucide-react';
 
-function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, template, onTemplateChange }) {
+function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, template, onTemplateChange, font, onFontChange }) {
+
     const colors = [
         { name: 'Slate', value: '#0f172a' },
         { name: 'Navy', value: '#1e3a8a' },
@@ -12,13 +13,13 @@ function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, t
         <header className="app-header">
             <div className="header-top-row">
                 <div className="logo">
-                    <FileText size={20} />
+                    <img src="/MDLogo.png" alt="CV Studio Logo" className="logo-icon" />
                     <span>CV Studio</span>
                 </div>
 
                 <div className="header-actions">
                     <button className="btn btn-secondary btn-action" onClick={onLoadSample} title="Load sample data">
-                        <Sparkles size={15} />
+                        <FileCheck size={15} />
                         <span className="btn-text">Sample</span>
                     </button>
 
@@ -46,7 +47,11 @@ function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, t
                                 title={c.name}
                                 className={`color-dot ${currentColor === c.value ? 'active' : ''}`}
                                 style={{ backgroundColor: c.value }}
-                            />
+                            >
+                                {currentColor === c.value && (
+                                    <Check size={11} strokeWidth={3.5} color="#ffffff" />
+                                )}
+                            </button>
                         ))}
                     </div>
                 </div>
@@ -68,6 +73,19 @@ function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, t
                             2-Col
                         </button>
                     </div>
+                </div>
+
+                {/* Font Style Selection */}
+                <div className="control-group">
+                    <span className="control-label">Font:</span>
+                    <select
+                        value={font}
+                        onChange={(e) => onFontChange(e.target.value)}
+                        className="font-select"
+                    >
+                        <option value="sans">Sans</option>
+                        <option value="serif">Serif</option>
+                    </select>
                 </div>
             </div>
         </header>

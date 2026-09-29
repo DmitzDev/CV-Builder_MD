@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Globe } from 'lucide-react';
 
-function Preview({ data, themeColor = '#0f172a', template = 'single' }) {
+function Preview({ data, themeColor = '#0f172a', template = 'single', font = 'sans' }) {
     const { personal, experience, education, skills } = data;
 
     const renderHeader = () => (
@@ -92,7 +92,13 @@ function Preview({ data, themeColor = '#0f172a', template = 'single' }) {
 
     return (
         <div className="preview-panel">
-            <div className="cv-sheet" id="cv-to-print">
+            <div
+                className="cv-sheet"
+                id="cv-to-print"
+                style={{
+                    fontFamily: font === 'serif' ? "'Merriweather', Georgia, serif" : "var(--font-family)"
+                }}
+            >
                 {renderHeader()}
 
                 {template === 'single' ? (

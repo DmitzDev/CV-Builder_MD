@@ -58,15 +58,26 @@ body {
 }
 
 .logo {
+  order: 1;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   letter-spacing: -0.02em;
 }
 
+.logo-icon {
+  height: 32px;
+  width: auto;
+  max-width: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+
 .header-actions {
+  order: 3;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -221,6 +232,7 @@ textarea.form-control {
 
 /* Navbar Controls & Dots */
 .navbar-controls {
+  order: 2;
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -245,13 +257,17 @@ textarea.form-control {
 }
 
 .color-dot {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: none;
   cursor: pointer;
   padding: 0;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
   position: relative;
 }
 
@@ -260,8 +276,8 @@ textarea.form-control {
 }
 
 .color-dot.active {
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--border-focus);
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .layout-btn-group {
@@ -272,6 +288,19 @@ textarea.form-control {
 .btn-xs {
   font-size: 0.75rem;
   padding: 0.25rem 0.55rem;
+}
+
+.font-select {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+  height: 28px;
 }
 
 /* Mobile Segmented Tab Bar (Hidden on Desktop) */
@@ -443,12 +472,18 @@ textarea.form-control {
   }
 
   /* Row 1: Logo & Action Buttons */
-  .app-header > .logo {
+  .logo {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 1.05rem;
+    gap: 0.5rem;
+    font-size: 1.1rem;
     white-space: nowrap;
+  }
+
+  .logo-icon {
+    height: 28px;
+    width: auto;
+    max-width: 36px;
   }
 
   .header-actions {
@@ -465,38 +500,65 @@ textarea.form-control {
     width: 100%;
   }
 
-  /* Row 2: Secondary Toolbar (Accent + Layout) */
+  /* Row 2: Secondary Toolbar (Accent + Layout + Font) - 100% visible, no clipping */
   .navbar-controls {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding-top: 0.5rem;
+    padding: 0.4rem 0 0.1rem;
     border-top: 1px solid #f1f5f9;
+    gap: 0.35rem;
+    overflow: visible;
   }
 
   .control-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    background: #f8fafc;
+    padding: 0.22rem 0.5rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
   }
 
+  /* Hide verbose text labels on mobile so everything fits */
   .control-label {
-    display: inline-block !important;
-    font-size: 0.725rem;
-    color: var(--text-muted);
+    display: none !important;
   }
 
   .color-dots {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    margin-left: 0.25rem;
+    gap: 0.45rem;
   }
 
   .color-dot {
     width: 20px;
     height: 20px;
+  }
+
+  .layout-btn-group {
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .layout-btn-group .btn-xs {
+    padding: 0.2rem 0.45rem;
+    font-size: 0.725rem;
+    border-radius: 12px;
+  }
+
+  .control-group .font-select,
+  .control-group select.form-control {
+    background: transparent;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0 0.15rem;
+    height: auto;
+    color: var(--text-main);
+    cursor: pointer;
   }
 
   /* Mobile Floating Tab Switcher */

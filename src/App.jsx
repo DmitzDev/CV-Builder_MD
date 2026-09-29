@@ -37,6 +37,15 @@ function App() {
     localStorage.setItem('minimalist_cv_theme', themeColor);
   }, [themeColor]);
 
+  // Typography font state: 'sans' or 'serif'
+  const [font, setFont] = useState(() => {
+    return localStorage.getItem('minimalist_cv_font') || 'sans';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('minimalist_cv_font', font);
+  }, [font]);
+
   const [cvData, setCvData] = useState(() => {
     const saved = localStorage.getItem('minimalist_cv_data');
     return saved ? JSON.parse(saved) : initialCVData;
@@ -74,6 +83,8 @@ function App() {
         onColorChange={setThemeColor}
         template={template}
         onTemplateChange={setTemplate}
+        font={font}
+        onFontChange={setFont}
       />
 
       {/* Mobile Floating Segmented Tab Switcher */}
@@ -96,7 +107,7 @@ function App() {
 
       <div className={`main-workspace show-${mobileTab}`}>
         <Editor data={cvData} onChange={setCvData} />
-        <Preview data={cvData} themeColor={themeColor} template={template} />
+        <Preview data={cvData} themeColor={themeColor} template={template} font={font} />
       </div>
     </div>
   );
