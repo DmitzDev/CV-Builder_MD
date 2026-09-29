@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Preview from './components/Preview';
 import { initialCVData } from './sampleData';
+import Editor from './components/Editor';
 
 const emptyCVData = {
   personal: {
@@ -19,7 +20,15 @@ const emptyCVData = {
 };
 
 function App() {
-  const [cvData, setCvData] = useState(initialCVData);
+  const [cvData, setCvData] = useState(() => {
+    const saved = localStorage.getItem('minimalist_cv_data');
+    return saved ? JSON.parse(saved) : initialCVData;
+  });
+
+  // Kusa itong magse-save sa browser sa bawat pindot
+  useEffect(() => {
+    localStorage.setItem('minimalist_cv_data', JSON.stringify(cvData));
+  }, [cvData]);
 
   const handleLoadSample = () => {
     setCvData(initialCVData);
@@ -28,6 +37,7 @@ function App() {
   const handleReset = () => {
     if (window.confirm("Sigurado ka bang gusto mong i-clear ang lahat ng inputs?")) {
       setCvData(emptyCVData);
+      localStorage.removeItem('minimalist_cv_data');
     }
   };
 
@@ -44,12 +54,7 @@ function App() {
       />
 
       <div className="main-workspace">
-        {/* Kaliwa: Form Editor Placeholder muna */}
-        <section className="editor-panel">
-          <p style={{ color: 'var(--text-muted)' }}>Dito ilalagay ang Form Editor natin...</p>
-        </section>
-
-        {/* Kanan: Live CV Preview */}
+        <Editor data={cvData} onChange={setCvData} />
         <Preview data={cvData} />
       </div>
     </div>

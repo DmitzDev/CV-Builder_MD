@@ -345,3 +345,43 @@ textarea.form-control {
   border-radius: 4px;
   font-weight: 500;
 }
+
+/* --- PRINT & PDF EXPORT RULES --- */
+@media print {
+
+  /* Itago ang lahat ng controls */
+  .app-header,
+  .editor-panel,
+  .btn,
+  .header-actions {
+    display: none !important;
+  }
+
+  /* I-reset ang background at display para sa papel */
+  body,
+  .app-container,
+  .main-workspace,
+  .preview-panel {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  .cv-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    padding: 15mm 15mm !important;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
