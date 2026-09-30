@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Preview from './components/Preview';
 import { initialCVData } from './sampleData';
 import Editor from './components/Editor';
+import IntroLoader from './components/IntroLoader';
 
 const emptyCVData = {
   personal: {
@@ -22,6 +23,8 @@ const emptyCVData = {
 };
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [template, setTemplate] = useState(() => {
     return localStorage.getItem('minimalist_cv_layout') || 'single';
   });
@@ -114,6 +117,8 @@ function App() {
 
   return (
     <div className="app-container">
+      {isLoading && <IntroLoader onFinish={() => setIsLoading(false)} />}
+
       <Navbar
         onLoadSample={handleLoadSample}
         onReset={handleReset}
