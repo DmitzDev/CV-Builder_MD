@@ -2,7 +2,7 @@ import React from 'react';
 import { Mail, Phone, MapPin, Globe } from 'lucide-react';
 
 function Preview({ data, themeColor = '#0f172a', template = 'single', font = 'sans' }) {
-    const { personal, experience, education, skills } = data;
+    const { personal, experience, education, skills, projects = [] } = data;
 
     const renderHeader = () => (
         <header className="cv-header" style={{ borderColor: themeColor }}>
@@ -90,6 +90,35 @@ function Preview({ data, themeColor = '#0f172a', template = 'single', font = 'sa
         </section>
     );
 
+    const renderProjects = () => projects && projects.length > 0 && (
+        <section className="cv-block">
+            <h2 className="cv-section-heading" style={{ color: themeColor, borderColor: `${themeColor}25` }}>
+                Featured Projects
+            </h2>
+            <div className="cv-list">
+                {projects.map((item) => (
+                    <div key={item.id} className="cv-item">
+                        <div className="cv-item-header">
+                            <span className="cv-item-title">{item.name}</span>
+                            {item.link && (
+                                <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ fontSize: '0.8rem', color: themeColor, textDecoration: 'none' }}
+                                >
+                                    View Project ↗
+                                </a>
+                            )}
+                        </div>
+                        {item.description && <p className="cv-item-desc">{item.description}</p>}
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+
+
     return (
         <div className="preview-panel">
             <div
@@ -105,6 +134,7 @@ function Preview({ data, themeColor = '#0f172a', template = 'single', font = 'sa
                     <>
                         {renderProfile()}
                         {renderExperience()}
+                        {renderProjects()}
                         {renderEducation()}
                         {renderSkills()}
                     </>
@@ -125,6 +155,7 @@ function Preview({ data, themeColor = '#0f172a', template = 'single', font = 'sa
                         <main className="cv-main-column">
                             {renderProfile()}
                             {renderExperience()}
+                            {renderProjects()}
                         </main>
                     </div>
                 )}

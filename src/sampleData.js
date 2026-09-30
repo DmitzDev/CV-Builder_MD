@@ -41,5 +41,14 @@ export const initialCVData = {
     ],
     skills: [
         "JavaScript (ES6+)", "React.js", "HTML5 & CSS3", "Git & GitHub", "REST APIs", "UI/UX Design"
+    ],
+
+    projects: [
+        {
+            id: "1",
+            name: "E-Commerce Web App",
+            link: "https://github.com/alexrivera/ecommerce",
+            description: "Built a responsive online store with cart functionality and Stripe payment integration using React and Node.js."
+        }
     ]
 };

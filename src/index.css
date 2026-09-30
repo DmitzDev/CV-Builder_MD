@@ -703,7 +703,8 @@ textarea.form-control {
   .app-header,
   .editor-panel,
   .btn,
-  .header-actions {
+  .header-actions,
+  .mobile-tab-bar {
     display: none !important;
   }
 

@@ -17,7 +17,8 @@ const emptyCVData = {
   },
   experience: [],
   education: [],
-  skills: []
+  skills: [],
+  projects: []
 };
 
 function App() {

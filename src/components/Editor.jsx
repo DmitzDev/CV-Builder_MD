@@ -1,8 +1,8 @@
 import React from 'react';
-import { User, Briefcase, GraduationCap, Award, Plus, Trash2 } from 'lucide-react';
+import { User, Briefcase, GraduationCap, Award, Plus, Trash2, FolderGit2 } from 'lucide-react';
 
 function Editor({ data, onChange }) {
-    const { personal, experience, education, skills } = data;
+    const { personal, experience, education, skills, projects = [] } = data;
 
     // 1. Personal Info Handler
     const handlePersonalChange = (e) => {
@@ -74,7 +74,33 @@ function Editor({ data, onChange }) {
         onChange({ ...data, education: filtered });
     };
 
-    // 4. Skills Handlers
+    // 4. Project Handlers
+    const handleAddProject = () => {
+        const newItem = {
+            id: Date.now().toString(),
+            name: "",
+            link: "",
+            description: ""
+        };
+        onChange({
+            ...data,
+            projects: [...projects, newItem]
+        });
+    };
+
+    const handleUpdateProject = (id, field, value) => {
+        const updated = projects.map((item) =>
+            item.id === id ? { ...item, [field]: value } : item
+        );
+        onChange({ ...data, projects: updated });
+    };
+
+    const handleRemoveProject = (id) => {
+        const filtered = projects.filter((item) => item.id !== id);
+        onChange({ ...data, projects: filtered });
+    };
+
+    // 5 Skills Handlers
     const handleAddSkill = (e) => {
         if (e.key === 'Enter' && e.target.value.trim() !== "") {
             e.preventDefault();
@@ -354,6 +380,41 @@ function Editor({ data, onChange }) {
                         </span>
                     ))}
                 </div>
+
+                {/* --- Projects --- */}
+                <section className="form-section">
+                    <h2 className="section-title">
+                        <FolderGit2 size={16} />
+                        <span>Projects</span>
+                    </h2>
+                    {projects.map((project) => (
+                        <div key={project.id} className="form-group">
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={project.name}
+                                onChange={(e) => handleUpdateProject(project.id, 'name', e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={project.link}
+                                onChange={(e) => handleUpdateProject(project.id, 'link', e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={project.description}
+                                onChange={(e) => handleUpdateProject(project.id, 'description', e.target.value)}
+                            />
+                        </div>
+                    ))}
+                    <button className="btn-add" onClick={handleAddProject}>
+                        <Plus size={14} />
+                        Add Project
+                    </button>
+                </section>
+
             </section>
         </aside>
     );
