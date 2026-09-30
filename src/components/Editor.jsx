@@ -380,41 +380,60 @@ function Editor({ data, onChange }) {
                         </span>
                     ))}
                 </div>
+            </section>
 
-                {/* --- Projects --- */}
-                <section className="form-section">
-                    <h2 className="section-title">
+            {/* --- PROJECTS --- */}
+            <section className="form-section">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h2 className="section-title" style={{ marginBottom: 0, border: 'none' }}>
                         <FolderGit2 size={16} />
                         <span>Projects</span>
                     </h2>
-                    {projects.map((project) => (
-                        <div key={project.id} className="form-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={project.name}
-                                onChange={(e) => handleUpdateProject(project.id, 'name', e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={project.link}
-                                onChange={(e) => handleUpdateProject(project.id, 'link', e.target.value)}
-                            />
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={project.description}
-                                onChange={(e) => handleUpdateProject(project.id, 'description', e.target.value)}
-                            />
-                        </div>
-                    ))}
-                    <button className="btn-add" onClick={handleAddProject}>
-                        <Plus size={14} />
-                        Add Project
+                    <button className="btn btn-secondary" onClick={handleAddProject} style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}>
+                        <Plus size={13} /> Add
                     </button>
-                </section>
+                </div>
 
+                {projects.map((project) => (
+                    <div key={project.id} style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', background: '#fafafa' }}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <button className="btn-danger" onClick={() => handleRemoveProject(project.id)} title="Delete project">
+                                <Trash2 size={14} />
+                            </button>
+                        </div>
+                        <div className="input-grid">
+                            <div className="form-group">
+                                <label>Project Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="e.g. Minimalist CV Builder"
+                                    value={project.name}
+                                    onChange={(e) => handleUpdateProject(project.id, 'name', e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Project URL / Repo</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="https://github.com/..."
+                                    value={project.link}
+                                    onChange={(e) => handleUpdateProject(project.id, 'link', e.target.value)}
+                                />
+                            </div>
+                            <div className="form-group input-full">
+                                <label>Description & Tech Stack</label>
+                                <textarea
+                                    className="form-control"
+                                    placeholder="Describe your role, impact, or tech stack used..."
+                                    value={project.description}
+                                    onChange={(e) => handleUpdateProject(project.id, 'description', e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </section>
         </aside>
     );

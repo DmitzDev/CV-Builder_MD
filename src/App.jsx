@@ -74,12 +74,52 @@ function App() {
     window.print();
   };
 
+  // Export CV Data as a downloadable JSON file
+  const handleExportJSON = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cvData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `cv_backup_${Date.now()}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  // Import CV Data from a JSON file
+  const handleImportJSON = (e) => {
+    const fileReader = new FileReader();
+    if (e.target.files && e.target.files[0]) {
+      fileReader.readAsText(e.target.files[0], "UTF-8");
+      fileReader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          if (parsed && typeof parsed === 'object') {
+            setCvData({
+              personal: { ...emptyCVData.personal, ...(parsed.personal || {}) },
+              experience: Array.isArray(parsed.experience) ? parsed.experience : [],
+              education: Array.isArray(parsed.education) ? parsed.education : [],
+              skills: Array.isArray(parsed.skills) ? parsed.skills : [],
+              projects: Array.isArray(parsed.projects) ? parsed.projects : []
+            });
+            alert("Matagumpay na na-import ang iyong CV data!");
+          }
+        } catch (err) {
+          alert("Hindi wastong JSON file. Pakisuri ulit ang file.");
+        }
+      };
+      // Reset input value para pwede ulit i-upload ang same file kung kailangan
+      e.target.value = "";
+    }
+  };
+
   return (
     <div className="app-container">
       <Navbar
         onLoadSample={handleLoadSample}
         onReset={handleReset}
         onPrint={handlePrint}
+        onExportJSON={handleExportJSON}
+        onImportJSON={handleImportJSON}
         currentColor={themeColor}
         onColorChange={setThemeColor}
         template={template}
@@ -88,7 +128,12 @@ function App() {
         onFontChange={setFont}
       />
 
-      {/* Mobile Floating Segmented Tab Switcher */}
+      <div className={`main-workspace show-${mobileTab}`}>
+        <Editor data={cvData} onChange={setCvData} />
+        <Preview data={cvData} themeColor={themeColor} template={template} font={font} />
+      </div>
+
+      {/* Mobile Bottom Tab Switcher */}
       <div className="mobile-tab-bar">
         <button
           className={`mobile-tab-btn ${mobileTab === 'edit' ? 'active' : ''}`}
@@ -104,11 +149,6 @@ function App() {
           <Eye size={15} />
           <span>View CV</span>
         </button>
-      </div>
-
-      <div className={`main-workspace show-${mobileTab}`}>
-        <Editor data={cvData} onChange={setCvData} />
-        <Preview data={cvData} themeColor={themeColor} template={template} font={font} />
       </div>
     </div>
   );

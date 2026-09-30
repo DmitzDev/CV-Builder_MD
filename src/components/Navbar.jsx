@@ -1,7 +1,20 @@
-import React from 'react';
-import { FileText, Printer, RotateCcw, FileCheck, Check } from 'lucide-react';
+import React, { useRef } from 'react';
+import { FileText, Printer, RotateCcw, FileCheck, Check, Download, Upload } from 'lucide-react';
 
-function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, template, onTemplateChange, font, onFontChange }) {
+function Navbar({
+    onReset,
+    onLoadSample,
+    onPrint,
+    onExportJSON,
+    onImportJSON,
+    currentColor,
+    onColorChange,
+    template,
+    onTemplateChange,
+    font,
+    onFontChange
+}) {
+    const fileInputRef = useRef(null);
 
     const colors = [
         { name: 'Slate', value: '#0f172a' },
@@ -9,6 +22,13 @@ function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, t
         { name: 'Emerald', value: '#065f46' },
         { name: 'Burgundy', value: '#831843' }
     ];
+
+    const handleTriggerImport = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
     return (
         <header className="app-header">
             <div className="header-top-row">
@@ -18,18 +38,37 @@ function Navbar({ onReset, onLoadSample, onPrint, currentColor, onColorChange, t
                 </div>
 
                 <div className="header-actions">
+                    {/* Hidden file input for JSON import */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={onImportJSON}
+                        accept=".json"
+                        style={{ display: 'none' }}
+                    />
+
+                    <button className="btn btn-secondary btn-action" onClick={handleTriggerImport} title="Import CV data from JSON">
+                        <Upload size={14} />
+                        <span className="btn-text">Import</span>
+                    </button>
+
+                    <button className="btn btn-secondary btn-action" onClick={onExportJSON} title="Backup CV data as JSON">
+                        <Download size={14} />
+                        <span className="btn-text">Backup</span>
+                    </button>
+
                     <button className="btn btn-secondary btn-action" onClick={onLoadSample} title="Load sample data">
-                        <FileCheck size={15} />
+                        <FileCheck size={14} />
                         <span className="btn-text">Sample</span>
                     </button>
 
                     <button className="btn btn-secondary btn-action" onClick={onReset} title="Clear all fields">
-                        <RotateCcw size={15} />
+                        <RotateCcw size={14} />
                         <span className="btn-text">Clear</span>
                     </button>
 
                     <button className="btn btn-primary btn-action" onClick={onPrint} title="Download or print your CV">
-                        <Printer size={15} />
+                        <Printer size={14} />
                         <span className="btn-text">PDF</span>
                     </button>
                 </div>
